@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/30 16:06:13 by vame              #+#    #+#             */
-/*   Updated: 2015/02/09 10:26:15 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 15:56:30 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char		**sh_o_env_dft(char ***envp)
 	return (*envp);
 }
 
-char		**sh_o_envcpy(char **envp, t_data **data)
+char		**sh_o_envcpy(char **envp, t_data **data, int dft)
 {
 	char		**new;
 	int			i;
@@ -116,7 +116,7 @@ char		**sh_o_envcpy(char **envp, t_data **data)
 	}
 	if (!(*data = sh_o_new_data(&new)))
 		return (NULL);
-	if (!(new = sh_o_env_dft(&new)))
+	if (dft && !(new = sh_o_env_dft(&new)))
 		return (NULL);
 	return (new);
 }

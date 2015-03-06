@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/30 16:11:08 by vame              #+#    #+#             */
-/*   Updated: 2015/02/07 17:15:28 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 16:14:41 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,23 @@ char		*sh_o_del_prev(char **curpath, int *i)
 	int			j;
 
 	j = *i - 1;
-	len = 4;
-	if (j > 1)
+	len = j - 2 > 0 ? 4 : 3;
+	if (j > 0)
 	{
 		j -= 2;
-		while (j >= 0 && (*curpath)[j--] != '/')
+		while (j > 0 && (*curpath)[j--] != '/')
 			len++;
 		j++;
 	}
 	(*curpath)[j] = (*curpath)[j + len];
 	while ((*curpath)[j++])
 		(*curpath)[j] = (*curpath)[j + len];
-	*i -= (len + 1);
+	if ((*curpath)[0] == '\0')
+	{
+		(*curpath)[0] = '/';
+		(*curpath)[1] = '\0';
+	}
+	*i -= *i > (len + 1) ? (len + 1) : (*i - 1);
 	return (*curpath);
 }
 
@@ -106,4 +111,7 @@ void		sh_o_clean_curpath(char **curpath)
 	while (*curpath && (*curpath)[i++])
 		if ((*curpath)[i - 1] == '/' && (*curpath)[i] == '/')
 			*curpath = sh_o_del_chars(curpath, i-- - 1, 1);
+	if ((i = ft_strlen(*curpath)) > 1)
+		if ((*curpath)[i - 1] == '/')
+			(*curpath)[i - 1] = '\0';
 }

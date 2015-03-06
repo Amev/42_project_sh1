@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/05 14:25:54 by vame              #+#    #+#             */
-/*   Updated: 2015/02/06 16:53:02 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 16:03:49 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ int			sh_o_free_data(t_data **data)
 		ft_strdel(&(*data)->oldpwd);
 	free(*data);
 	return (1);
+}
+
+void		sh_o_del_tmp(char **tmp, char ***arg_tmp, char ***path_tmp)
+{
+	if (*tmp)
+		ft_strdel(tmp);
+	ft_strdel_double(arg_tmp);
+	ft_strdel_double(path_tmp);
 }

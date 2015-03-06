@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/30 13:56:20 by vame              #+#    #+#             */
-/*   Updated: 2015/02/09 12:54:03 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 15:43:02 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			sh_o_ac(char **env, char *arg, char **line, char *err)
 
 int			sh_o_inception(char *arg, char **line)
 {
-	if (arg[0] == '.')
+	if (arg[0] == '.' || arg[0] == '/')
 	{
 		if (!(access(arg, X_OK)))
 		{
@@ -62,12 +62,18 @@ void		sh_o_fork(char *cmd, char **arg, char ***envp)
 	pid_t		son;
 	int			status;
 
+	signal(SIGINT, sh_o_signal_cmd);
 	if ((son = fork()) == -1 && ft_putstr_fd("fork error\n", 2))
 		exit(-2);
 	if (son > 0)
 		wait(&status);
 	if (son == 0)
-		execve(cmd, arg, *envp);
+	{
+		signal(SIGSEGV, sh_o_signal_cmd);
+		if (execve(cmd, arg, *envp) == -1)
+			ft_printf("This not a binary file\n");
+		exit(0);
+	}
 }
 
 int			sh_o_exit(char **arg)

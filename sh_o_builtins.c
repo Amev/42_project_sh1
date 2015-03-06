@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/30 16:16:06 by vame              #+#    #+#             */
-/*   Updated: 2015/02/06 16:58:43 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 16:03:37 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,26 @@ int			sh_o_builtins(char **arg, char ***envp, t_data **data)
 		return (sh_o_cd(arg, envp, data));
 	if (builtins == 4)
 		return (sh_o_env(arg, envp));
+	return (builtins);
+}
+
+int			sh_o_blt_cptn(char **arg, int i, char ***envp, t_data **data)
+{
+	int			j;
+	int			builtins;
+	char		**arg_tmp;
+
+	j = i;
+	while (arg[j])
+		j++;
+	if (!(arg_tmp = (char **)malloc(sizeof(char *) * (j - i + 1))))
+		return (-1);
+	arg_tmp[j - i] = NULL;
+	j = 0;
+	while (arg[i])
+		if (!(arg_tmp[j++] = ft_strdup(arg[i++])))
+			return (-1);
+	builtins = sh_o_builtins(arg_tmp, envp, data);
+	ft_strdel_double(&arg_tmp);
 	return (builtins);
 }

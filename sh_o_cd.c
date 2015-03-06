@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/04 10:37:04 by vame              #+#    #+#             */
-/*   Updated: 2015/02/09 11:41:32 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 11:09:25 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char		*sh_o_cd_tilde(char **ope, char ***envp)
 	tmp = NULL;
 	if (sh_o_cpy_var(envp, &tmp, "HOME=") == 1)
 	{
-		if (!(slash = ft_strnew(ft_strlen(tmp) + ft_strlen(*ope) + 1)))
+		if (!(slash = ft_strnew(ft_strlen(tmp) + ft_strlen(*ope) - 1)))
 			return (NULL);
-		slash = ft_strcat(ft_strcat(ft_strcat(slash, tmp), "/"), *ope);
+		slash = ft_strcat(ft_strcat(ft_strcat(slash, tmp), "/"), *ope + 2);
 		ft_strdel(ope);
 		ft_strdel(&tmp);
 		*ope = slash;

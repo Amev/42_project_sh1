@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/06 14:02:37 by vame              #+#    #+#             */
-/*   Updated: 2015/02/07 16:09:59 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 16:03:50 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	sh_o_env_cmd(char **envp, char **arg, int i)
 	char		**path_tmp;
 
 	j = i;
+	tmp = NULL;
 	while ((k = i) && arg[j])
 		j++;
 	if (!(arg_tmp = (char **)malloc(sizeof(char *) * (j - i + 1))))
@@ -92,9 +93,7 @@ static int	sh_o_env_cmd(char **envp, char **arg, int i)
 		return (-1);
 	if (j)
 		sh_o_fork(tmp, arg_tmp, &envp);
-	ft_strdel(&tmp);
-	ft_strdel_double(&arg_tmp);
-	ft_strdel_double(&path_tmp);
+	sh_o_del_tmp(&tmp, &arg_tmp, &path_tmp);
 	return (1);
 }
 
@@ -108,18 +107,19 @@ int			sh_o_env(char **arg, char ***envp)
 	i = 1;
 	opt = 0;
 	if ((opt = sh_o_env_opt(arg, &i)) == 1)
-		if (!(env_tmp = sh_o_envcpy(NULL, &data_tmp)))
+		if (!(env_tmp = sh_o_envcpy(NULL, &data_tmp, 0)))
 			return (-1);
 	if (opt == -1)
 		return (4);
 	if (opt == 0)
-		if (!(env_tmp = sh_o_envcpy(*envp, &data_tmp)))
+		if (!(env_tmp = sh_o_envcpy(*envp, &data_tmp, 0)))
 			return (-1);
 	if (arg[i] && sh_o_env_add_tmp_var(&env_tmp, &i, arg) == -1)
 		return (-1);
 	if (arg[i] == NULL)
 		sh_o_env_print(env_tmp, opt, arg);
-	else if (!(sh_o_is_builtin(arg[i])) && sh_o_env_cmd(env_tmp, arg, i) == -1)
+	else if (!(sh_o_blt_cptn(arg, i, &env_tmp, &data_tmp)) &&
+			sh_o_env_cmd(env_tmp, arg, i) == -1)
 		return (-1);
 	ft_strdel_double(&env_tmp);
 	sh_o_free_data(&data_tmp);

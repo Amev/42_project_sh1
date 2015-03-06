@@ -6,13 +6,13 @@
 #    By: vame <vame@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/23 11:23:10 by vame              #+#    #+#              #
-#    Updated: 2015/02/09 13:10:17 by vame             ###   ########.fr        #
+#    Updated: 2015/03/06 12:57:24 by vame             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_minishell1
 
-FLAGS = -c -g -Werror -Wextra -Wall
+CFLAGS = -c -g -Werror -Wextra -Wall
 
 INC = ./ft_sh1.h
 
@@ -33,9 +33,9 @@ BINAIRE = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRC)
+$(NAME): $(SRC) $(BINQIRE)
 		make -C libft/
-		gcc -I libft/includes/ $(FLAGS) $(INC) $(SRC)
+		gcc -I libft/includes/ $(CFLAGS) $(INC) $(SRC)
 		gcc -o $(NAME) $(BINAIRE) -L libft/ -lft
 		@rm -f $(TMP)
 
@@ -53,4 +53,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME) lib clean fclean re
+.PHONY: all lib clean fclean re

@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/23 10:42:58 by vame              #+#    #+#             */
-/*   Updated: 2015/02/09 14:51:54 by vame             ###   ########.fr       */
+/*   Updated: 2015/03/06 16:03:51 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char			*sh_o_cd_tilde(char **ope, char ***envp);
 
 int				sh_o_env(char **arg, char ***envp);
 void			sh_o_env_print(char **envp, int opt, char **arg);
+void			sh_o_del_tmp(char **tmp, char ***arg_tmp, char ***path_tmp);
 
 /*
 **	fonctions du builtin unsetenv
@@ -74,7 +75,7 @@ int				sh_o_env_quote(char **dst, char *src);
 */
 
 int				sh_o_path(char **envp, char ***e);
-char			**sh_o_envcpy(char **envp, t_data **data);
+char			**sh_o_envcpy(char **envp, t_data **data, int dft);
 char			**sh_o_new_envp(char ***envp, char *var, char *val);
 int				sh_o_cpy_var(char ***envp, char **dst, char *var);
 char			**sh_o_env_dft(char ***envp);
@@ -92,6 +93,7 @@ int				sh_o_free_data(t_data **data);
 
 int				sh_o_builtins(char **arg, char ***envp, t_data **data);
 int				sh_o_is_builtin(char *arg);
+int				sh_o_blt_cptn(char **arg, int i, char ***envp, t_data **data);
 
 /*
 **	fonctions algo sh1 et utilitaires
@@ -103,5 +105,7 @@ void			sh_o_fork(char *cmd, char **arg, char ***envp);
 int				sh_o_clean(char **line);
 int				sh_o_exit(char **arg);
 int				sh_o_inception(char *arg, char **line);
+void			sh_o_signal_cmd(int sig);
+void			sh_o_signal_nocmd(int sig);
 
 #endif
